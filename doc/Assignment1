@@ -1,0 +1,47 @@
+In this assignment you will be writing a C++/SFML program which will read descriptions of shapes from a configuration file, and then drawing those shapes to the screen.
+Each shape will have a name, position, speed, color, as well as properties unique to each shape type. For example, a Rectangle will have width and height, and a circle will have a Radius.
+For this assignment, the position of a shape refers to its SFML default of the upper-left corner of the shape.
+
+You are also required to make these shapes "bounce" off the side of the window which contains them. You can assume that all shapes will always be configured to start entirely within the
+window, and you don't have to worry about what happens if they start outside the window. Each shape's name should be drawn on the exact center of the shape in the given font size and color
+specified in the file.
+
+You are also required to implement an ImGui user interface which is able to:
+    - List all of the shapes and select any one of them to edit their properties
+    - Toggle whether or not the selected shape will be drawn
+    - Change the scale of the shape (0 to 4)
+    - Change the x and y velocity of the shape (-8 to 8)
+    - Change the color of the shape
+    - Change the name of the shape
+
+Each line of the configuration file specifies one of the config settings of the assignment program, with the first string in each line being the type of the setting that the rest of the line
+specified. Lines in the config file can be one of the following types, and lines can appear in any order in the file.
+
+Window W H
+    -   SFML Window size [int width, int height]
+
+Font F S R G B
+    - Font to be used [std::string file, int size, int red, int green, int blue]
+
+Rectangle N X Y SX SY R G B W H
+    - Rectangle shape [std::string name, float initial x, float initial y, float speed x, float speed y, int red, int green, int blue, float width, float height]
+
+Circle N X Y SX SY R G B R
+    - Circle shape [std::string name, float initial x, float initial y, float speed x, float speed y, int red, int green, int blue, float radius]
+
+Hints
+
+In order to store an arbitrary number of shapes from the configuration file you must store them in a container - std::vector is recommended
+
+Consider creating a custom class or struct which stores all of the properties of a shape that are not stored within the sf::Shape class itself (velocity, name, etc.)
+
+A shape will "touch" the side of the window if its bounding box makes contact with it, each shape's bounding rectangle can be obtained via:
+    shape.getLocalBounds(); // .top, .left, .width, .height
+    LOCAL pos means it is relative to shape.getPosition(), not the window as well as the (width, height) size of the rectangle
+
+    shape.getGlobalBounds() will take into account any scale, translation, etc. that has been applied to the shape, may be useful for the ui scaling
+
+Similarly if you have an sf::Text element that will be drawn to the screen its bounding rectangle can also be retrieved via the text.getLocalBounds() function and you'll need to do that in order
+to properly center the text within a shape
+
+Please use C++ file reading (std::ifstream)
